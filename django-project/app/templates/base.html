@@ -1,80 +1,129 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}Porto Motors{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
   <style>
     body {
-        font-family: 'Open Sans', sans-serif;
-        background-color: #f7f7f7;
-        color: #333;
-        margin: 0;
-        padding: 0;
+      font-family: 'Open Sans', Arial, sans-serif;
+      background-color: #181a1b;
+      color: #f8f9fa;
+      margin: 0;
+      padding: 0;
     }
-
     header {
-        background-color: #0096c7;
-        color: #fff;
-        text-align: center;
+      background: linear-gradient(90deg, #23272f 60%, #343a40 100%);
+      color: #ffc300;
+      padding: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
-
-    footer {
-        background-color: #ccc;
-        color: #333;
-        padding: 20px;
-        text-align: center;
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      height: 60px;
     }
-
-    nav {
-        background-color: #0096c7;
-        color: #fff;
-        height: 50px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .navbar-logo {
+      font-size: 1.7rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #ffc300;
+      text-decoration: none;
+      text-shadow: 1px 1px 2px #181a1b;
     }
-
     nav ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
     }
-
     nav ul li {
-        margin: 0 10px;
+      margin: 0 8px;
     }
-
-    nav ul li a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 16px;
-        padding: 15px;
-        transition: all 0.3s ease;
+    nav ul li a, .navbar-user {
+      color: #f8f9fa;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 8px 14px;
+      border-radius: 4px;
+      transition: background 0.2s, color 0.2s;
     }
-
-    nav ul li a:hover {
-        background-color: #32bbe8;
+    nav ul li a:hover, .navbar-user:hover {
+      background: #23272f;
+      color: #ffc300;
     }
-
-    nav ul li.active a {
-        background-color: #666;
+    .btn-cadastrar {
+      background: #ffc300;
+      color: #23272f;
+      font-weight: bold;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 4px;
+      margin-left: 10px;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.10);
     }
-
-    nav ul li.active a:hover {
-        background-color: #999;
+    .btn-cadastrar:hover {
+      background: #ffd60a;
+      color: #181a1b;
     }
-
+    main {
+      min-height: 80vh;
+      max-width: 1200px;
+      margin: 30px auto 0 auto;
+      padding: 0 20px 40px 20px;
+      background: #23272f;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    }
+    footer {
+      background: #181a1b;
+      color: #ffc300;
+      padding: 18px 0;
+      text-align: center;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      margin-top: 40px;
+      border-top: 2px solid #343a40;
+    }
+    @media (max-width: 800px) {
+      .navbar, main { max-width: 100%; }
+      main { border-radius: 0; }
+    }
+    @media (max-width: 600px) {
+      .navbar { flex-direction: column; height: auto; padding: 10px 0; }
+      nav ul { flex-direction: column; }
+      nav ul li { margin: 6px 0; }
+      main { padding: 10px 5px; }
+    }
   </style>
 </head>
 <body>
   <header>
-    <nav>
-      <ul>
-        <li><a href="{% url 'cars_list' %}">Carros</a></li>
-      </ul>
-    </nav>
+    <div class="navbar">
+      <a href="{% url 'home' %}" class="navbar-logo">Porto Motors</a>
+      <nav>
+        <ul>
+          <li><a href="{% url 'cars_list' %}">Ver Carros</a></li>
+          {% if user.is_authenticated %}
+            <li class="navbar-user">Olá, {{ user.username }}</li>
+            <li><a href="{% url 'logout' %}">Sair</a></li>
+            <li><a href="{% url 'new_car' %}" class="btn-cadastrar">Cadastrar Carro</a></li>
+          {% else %}
+            <li><a href="{% url 'register' %}">Cadastre-se</a></li>
+            <li><a href="{% url 'login' %}">Entrar</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
   </header>
 
   <main>
@@ -83,7 +132,7 @@
   </main>
 
   <footer>
-    <p>&copy; 2023 PycodeBR Multimarcas</p>
+    <p>&copy; {{ now|default:"2025" }} Porto Motors</p>
   </footer>
 </body>
 </html>

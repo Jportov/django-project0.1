@@ -1,8 +1,8 @@
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
 from cars.models import Car, CarInventory
 from django.db.models import Sum
-
+from gemini_api.client import get_car_description
 
 def car_invetory_update():
     cars_count = Car.objects.all().count()
@@ -14,6 +14,18 @@ def car_invetory_update():
         cars_value=cars_value
     )
 
+@receiver(pre_save, sender=Car)
+def car_pre_save(sender, instance, **kwargs):
+    if not instance.description:
+        ai_description = get_car_description(
+            model=instance.model,
+            brand=instance.brand.name,
+            year=instance.factory_year
+        )
+        instance.description = ai_description
+
+
+
 @receiver(post_save, sender=Car)
 def car_post_save(sender, instance, **kwargs):
     car_invetory_update()
@@ -22,3 +34,5 @@ def car_post_save(sender, instance, **kwargs):
 @receiver(post_delete, sender=Car)
 def car_post_delete(sender, instance, **kwargs):
     car_invetory_update()
+    
+    

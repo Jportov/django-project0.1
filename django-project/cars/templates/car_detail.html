@@ -86,7 +86,7 @@
       <p><strong>Ano de fabricação:</strong> {{ object.factory_year }}</p>
       <p><strong>Ano do modelo:</strong> {{ object.model_year }}</p>
       <p><strong>Placa:</strong> {{ object.plate }}</p>
-      <p><strong>Preço:</strong> R$ {{ object.price|floatformat:2|intcomma }}</p> 
+      <p><strong>Preço:</strong> R$ {{ object.value|floatformat:2|intcomma }}</p> 
   </div>
   {% if user.is_authenticated %}
     <div class="buttons-container">

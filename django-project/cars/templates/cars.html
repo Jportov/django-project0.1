@@ -168,7 +168,7 @@
             <h2>{{ car.model }}</h2>
             <p>{{ car.brand }}</p>
             <p>{{ car.factory_year }} - {{ car.model_year }}</p>
-            <p>R$ {{ car.price|floatformat:2|intcomma }}</p>
+            <p>R$ {{ car.value|floatformat:2|intcomma }}</p>
           </div>
         </a>
       {% endfor %}

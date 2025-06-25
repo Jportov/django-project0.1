@@ -11,7 +11,7 @@ class BrandAdmin(admin.ModelAdmin):
 
 
 class CarAdmin(admin.ModelAdmin):
-    list_display = ("brand", "model", "factory_year", "model_year", "price")
+    list_display = ("brand", "model", "factory_year", "model_year", "value")
     search_fields = ("model", "brand")
     
 admin.site.register(Car, CarAdmin)
